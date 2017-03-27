@@ -345,16 +345,17 @@ class AccountPaymentOrder(models.Model):
         party_account = etree.SubElement(
             parent_node, '%sAcct' % party_type)
         party_account_id = etree.SubElement(party_account, 'Id')
+        acc_number = partner_bank.sanitized_acc_number.replace(' ', '')
         if partner_bank.acc_type == 'iban':
             party_account_iban = etree.SubElement(
                 party_account_id, 'IBAN')
-            party_account_iban.text = partner_bank.sanitized_acc_number
+            party_account_iban.text = acc_number
         else:
             party_account_other = etree.SubElement(
                 party_account_id, 'Othr')
             party_account_other_id = etree.SubElement(
                 party_account_other, 'Id')
-            party_account_other_id.text = partner_bank.sanitized_acc_number
+            party_account_other_id.text = acc_number
         return True
 
     @api.model
